@@ -1,0 +1,339 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package com.mycompany.ejerciciobd2;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+/**
+ *
+ * @author damdu109
+ */
+public class CrearUsuario extends javax.swing.JFrame {
+
+    int numero;
+    int contador = 0;
+
+    public CrearUsuario() {
+        initComponents();
+        mostrarContraseña.setEnabled(false);
+        this.setResizable(false);
+
+        contraseña.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                actualizarEstadoBoton();
+            }
+        });
+
+        contraseña.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                crearUsuario();
+            }
+        });
+
+        nombre.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                crearUsuario();
+            }
+        });
+
+        email.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                crearUsuario();
+            }
+        });
+
+        telefono.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                crearUsuario();
+            }
+        });
+        
+        this.getRootPane().registerKeyboardAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                botonVolver.doClick(); 
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);;
+        
+
+    }
+
+    private void crearUsuario() {
+
+        String nombre1 = nombre.getText();
+        String email1 = email.getText();
+        String telefono1 = telefono.getText();
+        String contraseña1 = contraseña.getText();
+
+        if (email.getText().contains("@") && telefono.getText().length() == 9 && telefono.getText().matches("[1-9]+") && contraseña.getText().length() != 0 && nombre.getText().length() != 0) {
+
+            Captcha panta = new Captcha(numero, nombre1, email1, telefono1, contraseña1);
+            panta.setVisible(true);
+            panta.setLocationRelativeTo(null);
+            this.setVisible(false);
+
+        } else if (nombre.getText().length() == 0) {
+
+            JOptionPane.showMessageDialog(this, "Error, el nombre no puede estar vacio.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (!email.getText().contains("@")) {
+
+            JOptionPane.showMessageDialog(this, "Error, el formato del email es incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (!telefono.getText().matches("[1-9]+")) {
+
+            JOptionPane.showMessageDialog(this, "Error, el telefono solo puede contener numeros.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (telefono.getText()
+                .length() != 9) {
+
+            JOptionPane.showMessageDialog(this, "Error, el telefono debe tener 9 digitos.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else if (contraseña.getText()
+                .length() == 0) {
+
+            JOptionPane.showMessageDialog(this, "Error, la contraseña no puede estar vacia.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+// Otros métodos y variables de tu clase
+    private void actualizarEstadoBoton() {
+
+        if (contraseña.getPassword().length == 0) {
+            mostrarContraseña.setEnabled(false); // Deshabilitar el botón "Mostrar Contraseña"
+        } else {
+            mostrarContraseña.setEnabled(true); // Habilitar el botón "Mostrar Contraseña"
+        }
+
+    }
+
+    private void mostrarContraseña() {
+        if (contraseña.getEchoChar() == '\0') {
+            contraseña.setEchoChar('\u2022'); // Oculta la contraseña
+        } else {
+            contraseña.setEchoChar('\0'); // Muestra la contraseña
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        nombre = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        email = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        telefono = new javax.swing.JTextField();
+        crearUsuario = new javax.swing.JButton();
+        botonVolver = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        contraseña = new javax.swing.JPasswordField();
+        mostrarContraseña = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Copperplate Gothic Bold", 0, 18)); // NOI18N
+        jLabel1.setText("Crear Usuario");
+
+        jLabel2.setText("Nombre");
+
+        nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Email");
+
+        email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Telefono");
+
+        crearUsuario.setText("Crear Usuario");
+        crearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearUsuarioActionPerformed(evt);
+            }
+        });
+
+        botonVolver.setText("Volver");
+        botonVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonVolverActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Contraseña");
+
+        contraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contraseñaActionPerformed(evt);
+            }
+        });
+
+        mostrarContraseña.setText("Mostrar");
+        mostrarContraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mostrarContraseñaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(crearUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
+                        .addComponent(botonVolver))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(contraseña, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(telefono, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                                    .addComponent(email, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nombre, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mostrarContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(100, 100, 100))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(25, 25, 25)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(mostrarContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(contraseña))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(crearUsuario)
+                    .addComponent(botonVolver))
+                .addGap(14, 14, 14))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreActionPerformed
+
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailActionPerformed
+
+    private void crearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearUsuarioActionPerformed
+        crearUsuario();
+    }//GEN-LAST:event_crearUsuarioActionPerformed
+
+    private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_botonVolverActionPerformed
+
+    private void mostrarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mostrarContraseñaActionPerformed
+        mostrarContraseña();
+        contador++;
+        if(contador%2!=0){
+        mostrarContraseña.setText("Ocultar");
+        }
+        else if(contador%2==0){
+        mostrarContraseña.setText("Mostrar");
+        }
+    }//GEN-LAST:event_mostrarContraseñaActionPerformed
+
+    private void contraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraseñaActionPerformed
+        if (contraseña.getPassword().length == 0) {
+            mostrarContraseña.setEnabled(false); // Deshabilitar el botón "Mostrar Contraseña"
+        } else {
+            mostrarContraseña.setEnabled(true); // Habilitar el botón "Mostrar Contraseña"
+        }
+    }//GEN-LAST:event_contraseñaActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonVolver;
+    private javax.swing.JPasswordField contraseña;
+    private javax.swing.JButton crearUsuario;
+    private javax.swing.JTextField email;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JButton mostrarContraseña;
+    private javax.swing.JTextField nombre;
+    private javax.swing.JTextField telefono;
+    // End of variables declaration//GEN-END:variables
+}
